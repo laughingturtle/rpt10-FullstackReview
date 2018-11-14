@@ -3,19 +3,25 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import axios from 'axios';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       repos: []
     }
-
   }
 
   search (term) {
-    console.log(`${term} was searched`);
-    // TODO
+    console.log(`${term} was searched in index.jsx`);
+    axios.post('/repos', {
+      term: term
+    })
+    .then(function(response){
+      console.log('saved successfully');
+    });
   }
 
   render () {
