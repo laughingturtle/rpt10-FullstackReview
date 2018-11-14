@@ -2,7 +2,7 @@ const request = require('request');
 const config = require('../config');
 const data = require('../database/index')
 
-let getReposByUsername = (term) => {
+let getReposByUsername = (term, cb) => {
   var query = term;
   var pageSize = 25;
 
@@ -13,18 +13,16 @@ let getReposByUsername = (term) => {
       'Authorization': `token ${config.TOKEN}`
     }
   };
-  request(options, function (err, res, body) {
-          if (!err && res.statusCode == 200) {
-              //console.log('My api call response ---> : ', body); // Print the contents.
-              console.log('we\'re inside request --->', body);
-             // console.log(res.headers);
-              // return body;
-            /// how do I get data from here to the database index file?
-
-          } else {
+  request.get(options, function (err, res) {
+          if (err) {
             console.log('no data, this sucked ', err);
+          } else {
+            //console.log('we\'re inside request --->', res.body);
+            cb(null, res.body);
           }
         });
 }
+
+
 
 module.exports.getReposByUsername = getReposByUsername;

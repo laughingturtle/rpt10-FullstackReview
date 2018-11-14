@@ -18,8 +18,14 @@ app.post('/repos', function(req, res) {
     if(err){
       console.log('error in server/index');
     } else {
-      console.log('response', res);
-      saveInMongo.save(res);
+     // console.log('bamm bamm my successful response', res);
+      saveInMongo.save(res, function(err,res){
+        if(err){
+          console.log('error in server/index');
+        } else {
+          console.log('successful insert', res);
+        }
+      });
     }
   });
   // and get the repo information from the github API, then
