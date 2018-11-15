@@ -5,6 +5,10 @@ import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 import axios from 'axios';
 
+const divStyle = {
+  fontFamily: 'Verdana',
+  fontSize: 12
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -23,8 +27,11 @@ class App extends React.Component {
     axios.post('/repos', {
       term: term
     })
-    .then(function(response){
-      console.log('saved successfully');
+    .then((response) => {
+      console.log('saved successfully', response);
+      this.setState({
+        repos: response.data
+     });
     });
   }
 
@@ -32,7 +39,6 @@ class App extends React.Component {
     axios.get('/repos')
     .then((response) => {
       console.log('my data back on the client', response);
-
       this.setState({
         repos: response.data
      });
@@ -40,7 +46,7 @@ class App extends React.Component {
   }
 
   render () {
-    return (<div>
+    return (<div style={divStyle}>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>

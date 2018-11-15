@@ -11,19 +11,26 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function(req, res) {
   console.log(`${JSON.stringify(req.body.term)} was searched in server/index.js`);
-  res.status(200).send('Yall good');
   // TODO - your code here!
   // This route should take the github username provided
-  getRepos.getReposByUsername(req.body.term, function(err, res){
+  getRepos.getReposByUsername(req.body.term, function(err, repos){
     if(err){
       console.log('error in server/index');
     } else {
      // console.log('bamm bamm my successful response', res);
-      mongoAction.save(res, function(err, res){
+      mongoAction.save(repos, function(err, results){
         if(err){
           console.log('error in server/index');
         } else {
-          console.log('successful insert', res);
+          console.log('successful insert', results);
+          mongoAction.retrieve(function(err, data){
+            if(err){
+              console.log('error error error');
+            } else {
+            console.log('successful select: ', data);
+            res.status(200).send(data);
+            }
+          });
         }
       });
     }
@@ -45,7 +52,7 @@ app.get('/repos', function(req, res) {
       console.log('successful select: ', data);
       res.send(data);
       }
-  });
+    });
   // TODO - your code here!
   // This route should send back the top 25 repos
   // pulls data from DB to client
