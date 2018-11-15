@@ -1,7 +1,7 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 var getRepos = require('../helpers/github');
-var saveInMongo = require('../database/index');
+var mongoAction = require('../database/index');
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -19,7 +19,7 @@ app.post('/repos', function(req, res) {
       console.log('error in server/index');
     } else {
      // console.log('bamm bamm my successful response', res);
-      saveInMongo.save(res, function(err,res){
+      mongoAction.save(res, function(err, res){
         if(err){
           console.log('error in server/index');
         } else {
@@ -35,7 +35,17 @@ app.post('/repos', function(req, res) {
   //
 });
 
-app.get('/repos', function (req, res) {
+app.get('/repos', function(req, res) {
+  console.log('req *** ---> ', req);
+  //console.log('res *** ---> ', res);
+    mongoAction.retrieve(function(err, data){
+      if(err){
+        console.log('error error error');
+      } else {
+      console.log('successful select: ', data);
+      res.send(data);
+      }
+  });
   // TODO - your code here!
   // This route should send back the top 25 repos
   // pulls data from DB to client

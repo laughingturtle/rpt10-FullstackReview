@@ -15,9 +15,8 @@ let getReposByUsername = (term, cb) => {
   };
   request.get(options, function (err, res) {
           if (err) {
-            console.log('no data, this sucked ', err);
+            console.log('error: ', err);
           } else {
-            //console.log('we\'re inside request --->', res.body);
             cb(null, res.body);
           }
         });

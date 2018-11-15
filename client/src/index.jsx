@@ -14,6 +14,10 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getRecords();
+  }
+
   search (term) {
     console.log(`${term} was searched in index.jsx`);
     axios.post('/repos', {
@@ -21,6 +25,17 @@ class App extends React.Component {
     })
     .then(function(response){
       console.log('saved successfully');
+    });
+  }
+
+  getRecords() {
+    axios.get('/repos')
+    .then((response) => {
+      console.log('my data back on the client', response);
+
+      this.setState({
+        repos: response.data
+     });
     });
   }
 
