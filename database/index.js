@@ -16,10 +16,6 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-// collate data into array.
-
-// Repo.collection.insert(data, onInsert);
-
   // let createModel = (name, login, url) => {
   //   var item = {
   //     repo_name: name,
@@ -33,7 +29,6 @@ let Repo = mongoose.model('Repo', repoSchema);
     console.log('success //////////////////// ---->>');
 
     var dataForInsert = [];
-
 
     Repo.findOne({user_name: data[0].owner.login}, 'updated_at').sort({updated_at:-1}).exec((err, result) => {
       if(err){
